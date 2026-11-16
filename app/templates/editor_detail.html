@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<p><a href="/editor">← 回到待審查清單</a></p>
+
+<div class="card">
+  <h2>{{ m.title }}</h2>
+  <p class="meta">作者：{{ author.name }} ・ {{ m.category }} ・ 送出時間 {{ m.updated_at.strftime('%Y-%m-%d %H:%M') }}</p>
+  <div class="content">{{ m.content }}</div>
+
+  <div class="buttons">
+    <form method="post" action="/editor/{{ m.id }}/approve" class="inline"
+          onsubmit="return confirm('確定通過這篇稿件？');">
+      <button class="primary">通過</button>
+    </form>
+    <form method="post" action="/editor/{{ m.id }}/reject" class="inline"
+          onsubmit="return confirm('確定退回給作者修改？');">
+      <button class="danger">退回</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}投稿審查系統{% endblock %}</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header>
+    <a class="brand" href="/">投稿審查系統</a>
+    {% if user %}
+    <div class="who">
+      {{ user.name }}（{{ user.role.label }}）
+      <form method="post" action="/logout" class="inline">
+        <button class="link">登出</button>
+      </form>
+    </div>
+    {% endif %}
+  </header>
+  <main>
+    {% if flash %}<p class="flash">{{ flash }}</p>{% endif %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="toolbar">
+  <h2>我的投稿</h2>
+  <a class="btn primary" href="/author/new">新增投稿</a>
+</div>
+
+{% if items %}
+<table>
+  <thead>
+    <tr><th>類別</th><th>標題</th><th>審查狀態</th><th>更新時間</th><th></th></tr>
+  </thead>
+  <tbody>
+  {% for m in items %}
+    <tr>
+      <td>{{ m.category }}</td>
+      <td><a href="/author/{{ m.id }}">{{ m.title }}</a></td>
+      <td><span class="tag {{ m.status.value }}">{{ m.status.label }}</span></td>
+      <td>{{ m.updated_at.strftime('%Y-%m-%d %H:%M') }}</td>
+      <td class="actions">
+        {% if m.status.value == 'draft' %}
+        <a class="btn" href="/author/{{ m.id }}">編輯</a>
+        <form method="post" action="/author/{{ m.id }}/submit" class="inline"
+              onsubmit="return confirm('確定要送出投稿嗎？送出後就不能修改了');">
+          <button>送出</button>
+        </form>
+        <form method="post" action="/author/{{ m.id }}/delete" class="inline"
+              onsubmit="return confirm('確定要刪除這篇稿件嗎？');">
+          <button class="danger">刪除</button>
+        </form>
+        {% else %}
+        <a class="btn" href="/author/{{ m.id }}">查看</a>
+        {% endif %}
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="empty">目前還沒有稿件，按右上角「新增投稿」開始寫。</p>
+{% endif %}
+{% endblock %}

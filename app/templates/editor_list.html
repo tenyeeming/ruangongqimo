@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="toolbar">
+  <h2>待審查稿件</h2>
+</div>
+
+{% if rows %}
+<table>
+  <thead>
+    <tr><th>作者</th><th>類別</th><th>標題</th><th>送出時間</th><th></th></tr>
+  </thead>
+  <tbody>
+  {% for m, author in rows %}
+    <tr>
+      <td>{{ author.name }}</td>
+      <td>{{ m.category }}</td>
+      <td><a href="/editor/{{ m.id }}">{{ m.title }}</a></td>
+      <td>{{ m.updated_at.strftime('%Y-%m-%d %H:%M') }}</td>
+      <td class="actions"><a class="btn" href="/editor/{{ m.id }}">審查</a></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="empty">目前沒有需要審查的稿件。</p>
+{% endif %}
+{% endblock %}
